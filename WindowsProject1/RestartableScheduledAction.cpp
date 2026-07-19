@@ -2,6 +2,8 @@
 #include <iostream>
 #include <utility>
 
+extern void LogDebug(const wchar_t* format, ...);
+
 void RestartableScheduledAction::JoinIfJoinable()
 {
 	if (worker.joinable())
@@ -40,12 +42,12 @@ void RestartableScheduledAction::ScheduleAfterDelay()
 
 	if (isRunning)
 	{
-		std::cout << "Action is already running. Restarting..." << std::endl;
+		LogDebug(L"Action is already running. Restarting...");
 		CancelCurrent();
 	}
 
 	isRunning = true;
-	std::cout << "Action started." << std::endl;
+	LogDebug(L"Action started.");
 
 	JoinIfJoinable();
 	SetCancelRequested(false);
@@ -59,7 +61,7 @@ void RestartableScheduledAction::ScheduleAfterDelay()
 		if (!cancelled)
 			action();
 		else
-			std::cout << "Action was cancelled before execution." << std::endl;
+			LogDebug(L"Action was cancelled before execution.");
 
 		isRunning = false;
 	});
@@ -70,11 +72,11 @@ void RestartableScheduledAction::Cancel()
 	if (isRunning)
 	{
 		CancelCurrent();
-		std::cout << "Action stopped." << std::endl;
+		LogDebug(L"Action stopped.");
 	}
 	else
 	{
-		std::cout << "Action is not running." << std::endl;
+		LogDebug(L"Action is not running.");
 	}
 }
 
