@@ -31,6 +31,8 @@ RestartableScheduledAction::~RestartableScheduledAction()
 	CancelCurrent();
 }
 
+//--------------------------------------------------------------
+
 void RestartableScheduledAction::ScheduleAfterDelay()
 {
 	if (!action)
